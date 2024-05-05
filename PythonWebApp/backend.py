@@ -1,86 +1,49 @@
-class DijkstraResult:
-    def __init__(self, distance, path):
-        self.distance = distance
-        self.path = path
+import networkx as nx
 
-class Edge:
-    def __init__(self, destination, distance):
-        self._destination = destination
-        self._distance = distance
+# Création du graphe orienté
+G = nx.DiGraph()
 
-    @property
-    def destination(self):
-        return self._destination
-
-    @destination.setter
-    def destination(self, value):
-        self._destination = value
-
-    @property
-    def distance(self):
-        return self._distance
-
-    @distance.setter
-    def distance(self, value):
-        self._distance = value
-
-
-graph = {
-    "BatERDCD": [Edge("BatE-1D", 4), Edge("BatE1D", 4), Edge("BatERDCG", 16), Edge("BatERDCM", 8)],
-    "BatERDCG": [Edge("BatERDCD", 16), Edge("BatE-1G", 4), Edge("BatE1G", 4), Edge("BatERDCM", 8)],
-    "BatERDCM": [Edge("BatERDCD", 8), Edge("BatERDCG", 8), Edge("BatE-1M", 4), Edge("BatE1M", 4)],
-    "BatE1M": [Edge("BatE1D", 8), Edge("BatE1G", 8), Edge("BatERDCM", 4), Edge("BatE2M", 4)],
-    "BatE1D": [Edge("BatERDCD", 4), Edge("BatE2D", 4), Edge("BatE162", 1), Edge("BatE1G", 16), Edge("BatE1M", 8)],
-    "BatE1G": [Edge("BatERDCG", 4), Edge("BatE2G", 4), Edge("BatE1D", 16), Edge("BatE1M", 8), Edge("BatE102", 1)],
-    "BatE-1G": [Edge("BatE-1D", 16), Edge("BatERDCG", 4), Edge("BatE-1M", 8)],
-    "BatE-1M": [Edge("BatE-1G", 8), Edge("BatERDCM", 4), Edge("BatE-1D", 8)],
-    "BatE-1D": [Edge("BatE-1G", 16), Edge("BatERDCD", 4), Edge("BatE-1M", 8)],
-    "BatE2M": [Edge("BatE2D", 8), Edge("BatE2G", 8), Edge("BatE1M", 4)],
-    "BatE2D": [Edge("BatE1D", 4), Edge("BatE2G", 16), Edge("BatE2M", 8)],
-    "BatE2G": [Edge("BatE1G", 20), Edge("BatE2D", 16), Edge("BatE2M", 8)],
-    "BatE162": [Edge("BatE1D", 1), Edge("BatE160", 2)],
-}
+# Ajout des arêtes avec des poids
+edges = [
+    ("BatERDCD", "BatE-1D", 4), ("BatERDCD", "BatE1D", 4), ("BatERDCD", "BatERDCG", 16), ("BatERDCD", "BatERDCM", 8),
+    ("BatERDCG", "BatERDCD", 16), ("BatERDCG", "BatE-1G", 4), ("BatERDCG", "BatE1G", 4), ("BatERDCG", "BatERDCM", 8),
+    ("BatERDCM", "BatERDCD", 8), ("BatERDCM", "BatERDCG", 8), ("BatERDCM", "BatE-1M", 4), ("BatERDCM", "BatE1M", 4),
+    ("BatE1M", "BatE1D", 8), ("BatE1M", "BatE1G", 8), ("BatE1M", "BatERDCM", 4), ("BatE1M", "BatE2M", 4),
+    ("BatE1D", "BatERDCD", 4), ("BatE1D", "BatE2D", 4), ("BatE1D", "BatE162", 1), ("BatE1D", "BatE1G", 16), ("BatE1D", "BatE1M", 8),
+    ("BatE1G", "BatERDCG", 4), ("BatE1G", "BatE2G", 4), ("BatE1G", "BatE1D", 16), ("BatE1G", "BatE1M", 8), ("BatE1G", "BatE102", 1),
+    ("BatE-1G", "BatE-1D", 16), ("BatE-1G", "BatERDCG", 4), ("BatE-1G", "BatE-1M", 8),
+    ("BatE-1M", "BatE-1G", 8), ("BatE-1M", "BatERDCM", 4), ("BatE-1M", "BatE-1D", 8),
+    ("BatE-1D", "BatE-1G", 16), ("BatE-1D", "BatERDCD", 4), ("BatE-1D", "BatE-1M", 8),
+    ("BatE2M", "BatE2D", 8), ("BatE2M", "BatE2G", 8), ("BatE2M", "BatE1M", 4),
+    ("BatE2D", "BatE1D", 4), ("BatE2D", "BatE2G", 16), ("BatE2D", "BatE2M", 8),
+    ("BatE2G", "BatE1G", 20), ("BatE2G", "BatE2D", 16), ("BatE2G", "BatE2M", 8),
+    ("BatE162", "BatE1D", 1), ("BatE162", "BatE160", 2),
+    ("BatE160", "BatE162", 2), ("BatE160", "BatE158", 2),
+    ("BatE158", "BatE160", 2), ("BatE158", "BatE156", 2),
+    ("BatE156", "BatE158", 2), ("BatE156", "BatE154", 2),
+    ("BatE154", "BatE156", 2), ("BatE154", "BatE152", 2),
+    ("BatE152", "BatE154", 2), ("BatE152", "BatE116", 2),
+    ("BatE116", "BatE152", 4), ("BatE116", "BatE114", 2),
+    ("BatE114", "BatE116", 2), ("BatE114", "BatE112", 2),
+    ("BatE112", "BatE114", 2), ("BatE112", "BatE110", 2),
+    ("BatE110", "BatE112", 2), ("BatE110", "BatE108", 2),
+    ("BatE108", "BatE110", 2), ("BatE108", "BatE106", 2),
+    ("BatE106", "BatE108", 2), ("BatE106", "BatE104", 2),
+    ("BatE104", "BatE106", 2), ("BatE104", "BatE102", 2),
+    ("BatE102", "BatE104", 2), ("BatE102", "BatE1G", 1),
+]
 
 
+# Ajouter les arêtes au graphe
+G.add_weighted_edges_from(edges)
 
+# Fonction pour trouver le chemin le plus court en utilisant l'algorithme de Dijkstra, par exemple
+def find_path(source, target):
+    try:
+        path = nx.dijkstra_path(G, source=source, target=target, weight='weight')
+        return path
+    except nx.NetworkXNoPath:
+        return f"No path between {source} and {target}"
 
-def dijkstra(graph, start, target):
-    distances = {vertex: float('inf') for vertex in graph}
-    previous = {}
-    nodes = list(graph.keys())
-    path = []
-
-    distances[start] = 0
-
-    while nodes:
-        nodes.sort(key=lambda x: distances[x])
-        smallest = nodes.pop(0)
-
-        if smallest == target:
-            while smallest in previous:
-                path.insert(0, smallest)
-                smallest = previous[smallest]
-            break
-
-        if distances[smallest] == float('inf'):
-            break
-
-        for neighbor in graph[smallest]:
-            alt = distances[smallest] + neighbor.distance
-            if alt < distances[neighbor.destination]:
-                distances[neighbor.destination] = alt
-                previous[neighbor.destination] = smallest
-
-    path.insert(0, start)
-    return DijkstraResult(distances[target], path)
-
-# Utilisation de la fonction
-
-
-# You can continue to add the rest of your nodes and edges in the same format.
-
-
-result = dijkstra(graph, "BatE-1G", "BatE162")
-print("Distance:", result.distance)
-for step in result.path:
-    print(step)
+# Exemple d'utilisation
+print(find_path("BatE156", "BatE108"))
