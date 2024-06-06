@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Sign Up Page{% endblock %} {% block
+content %}
+<h1><br />Sign Up Page</h1>
+<form method="POST">
+  <h3>Sign Up</h3>
+  <div class="form-group">
+    <label for="email"> Email Address </label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Enter your Devinci Email"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password"> Password </label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      placeholder="Enter your password (4 characters minimum)"
+    />
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
