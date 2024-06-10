@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% block title %}Sign Up Page{% endblock %} {% block
+content %}
+<style>
+  body {
+    background-color: #f8f9fa;
+    background-size: cover;
+    background-position: center 55px;
+    background-repeat: no-repeat;
+    color: #333;
+  }
+
+  .styled-title {
+    background-color: #ffffff;
+    color: #333;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    text-align: center;
+    margin: 20px 0;
+    font-family: "Helvetica", sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    margin: 20px auto;
+  }
+
+  .form-container h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: "Helvetica", sans-serif;
+  }
+
+  .form-container .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-container label {
+    font-weight: bold;
+    color: #333;
+  }
+
+  .form-container input[type="email"],
+  .form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+
+  .form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .form-container button:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<h1 class="styled-title"><b>LeoMaps Signup Page</b></h1>
+
+<div class="form-container">
+  <form method="POST">
+    <h3>Sign Up</h3>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Enter your Devinci Email"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Enter your password (4 characters minimum)"
+        required
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock %}

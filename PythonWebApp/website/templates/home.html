@@ -1,0 +1,306 @@
+{% extends "base.html" %} {% block title %}Home Page{% endblock %} {% block
+content %}
+
+<style>
+  body {
+    background-image: url("static/ImageBack.jpg");
+    background-size: cover;
+    background-position: center 55px;
+    background-repeat: no-repeat;
+    color: #333;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    margin: 20px auto;
+  }
+
+  .form-container input[type="text"],
+  .form-container input[type="email"],
+  .form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+
+  .form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .form-container button:hover {
+    background-color: #0056b3;
+  }
+
+  .result-box {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+  }
+
+  .result-box h3 {
+    font-family: "Helvetica", sans-serif;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .result-box p {
+    font-family: "Georgia", serif;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .swiper-container {
+    width: 100%;
+    height: 60vh;
+    border-radius: 10px;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .swiper-pagination {
+    bottom: 10px !important;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #007bff;
+  }
+
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    color: #0056b3;
+  }
+
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .form-container,
+  .image-container {
+    margin: 10px;
+  }
+
+  .image-container img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+
+  .styled-title {
+    background-color: #ffffff;
+    color: #333;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    text-align: center;
+    margin: 20px 0;
+    font-family: "Helvetica", sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (min-width: 600px) {
+    .image-container {
+      display: block;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .image-container {
+      display: none;
+    }
+
+    .result-box {
+      padding: 10px;
+    }
+
+    .result-box h3 {
+      font-size: 20px;
+    }
+
+    .result-box p {
+      font-size: 16px;
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 60vh;
+    }
+
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .swiper-slide {
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .swiper-slide-active {
+    opacity: 1;
+  }
+
+  details {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  summary {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    background: rgba(0, 123, 255, 0.5);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: white;
+  }
+
+  summary:hover {
+    background: rgba(0, 123, 255, 0.7);
+  }
+
+  details[open] summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+</style>
+
+{% if result %}
+<details>
+  <summary>Find your path!</summary>
+  <div class="form-container">
+    <form method="POST">
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          name="location"
+          placeholder="Where are you?"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="destination">Destination</label>
+        <input
+          type="text"
+          class="form-control"
+          id="destination"
+          name="destination"
+          placeholder="Where do you want to go?"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</details>
+<div class="result-box">
+  <h3>Follow this path :</h3>
+  <p>{{ result }}</p>
+
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for item in result %}
+      <div class="swiper-slide">
+        <img src="static/{{ item }}.jpg" alt="Image {{ item }}" />
+      </div>
+      {% endfor %}
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Navigation -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</div>
+{% else %}
+<h1 class="styled-title">
+  <b>Welcome on our P2IP Project, LeoMaps !</b><br />
+</h1>
+<br />
+<br />
+<div class="form-container">
+  <form method="POST">
+    <h3>Find your path !</h3>
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input
+        type="text"
+        class="form-control"
+        id="location"
+        name="location"
+        placeholder="Where are you?"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="destination">Destination</label>
+      <input
+        type="text"
+        class="form-control"
+        id="destination"
+        name="destination"
+        placeholder="Where do you want to go?"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endif %} {% endblock %}
